@@ -22,6 +22,7 @@
             <th>kelamin</th>
             <th>status</th>
             <th>agama</th>
+            <th>action</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
             <th>{{$data->kelamin}}</th>
             <th>{{$data->status}}</th>
             <th>{{$data->agama}}</th>
+            <th><a href="/cetak/{{$data->id}}" class="btn btn-primary">Cetak</a></th>
           </tr>
           @endforeach
         </tbody>

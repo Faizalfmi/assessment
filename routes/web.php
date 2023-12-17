@@ -26,8 +26,12 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/list_daftar', [App\Http\Controllers\HomeController::class, 'list'])->name('list_daftar');
 Route::get('/daftar', [FormController::class, 'index'])->name('daftar');
 Route::post('/daftar', [FormController::class, 'store'])->name('daftar');
+Route::get('/cetak/{id}', [FormController::class, 'cetak_pdf'])->name('cetak');
+Route::get('/hapus/{id}', [FormController::class, 'destroy'])->name('hapus');
+Route::get('/edit/{id}', [FormController::class, 'edit'])->name('edit');
+Route::put('/edit/{id}', [FormController::class, 'update'])->name('edit');
 
-Route::get('getCourse/{id}', function ($id) {
+Route::get('getKota/{id}', function ($id) {
     $kota = City::where('id_provinsi',$id)->get();
     return response()->json($kota);
 });

@@ -19,19 +19,25 @@
     <div class="container-fluid px-1 py-5 mx-auto">
         <div class="row d-flex justify-content-center">
             <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
-                <h3>Formulir Pendaftaran</h3>
-                <p class="blue-text">Masukkan informasi anda.</p>
+                <h3>Ubah Formulir Pendaftaran</h3>
+                <p class="blue-text">Masukkan informasi yang ingin diubah.</p>
                 <div class="card">
-                    <h5 class="text-center mb-4">Masukkan Informasi Dengan Sebenar-benarnya</h5>
-                    <form class="form-card" action="/daftar" method="post">
+                    
+                    <form class="form-card" action="/edit/{{$data->id}}" method="post">
                         @csrf
-                        @method('post')
+                        @method('put')
+                        <div class="row justify-content-between text-left py-3">
+                            <div class="form-group col-12 flex-column d-flex"> 
+                                
+                                <input type="text" id="id_user" name="id_user" placeholder="Masukkan nama lengkap" value="{{$data->id_user}}" hidden > 
+                            </div>
+                        </div>
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-12 flex-column d-flex"> 
                                 <label class="form-control-label text-md-start px-3">Nama Lengkap (Sesuai Ijazah)
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" > 
+                                <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" value="{{$data->nama}}" > 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -40,6 +46,7 @@
                                     <span class="text-danger"> *</span>
                                 </label> 
                                 <textarea id="sekarang" name="sekarang" placeholder="" >
+                                    {{$data->alamat_sekarang}}
                                 </textarea> 
                             </div>
                             <div class="form-group col-sm-6 flex-column d-flex"> 
@@ -47,6 +54,7 @@
                                     <span class="text-danger"> *</span>
                                 </label> 
                                 <textarea id="ktp" name="ktp" placeholder="" >
+                                    {{$data->alamat_ktp}}
                                 </textarea> 
                             </div>
                         </div>
@@ -58,7 +66,7 @@
                                 <select id="provinsi" name="provinsi" placeholder="">
                                     <option value="" selected disabled>Pilih Provinsi</option>
                                     @foreach ($provinsi as $provinsi)
-                                    <option value="{{$provinsi->id}}">{{$provinsi->provinsi}}</option>
+                                    <option value="{{ $provinsi->id }}" @if($provinsi->id == $data->id_provinsi) selected @endif>{{ $provinsi->provinsi }}</option>
                                     @endforeach
                                 </select> 
                             </div>
@@ -76,40 +84,51 @@
                         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
                         <script>
-                            $(document).ready(function() {
+                        $(document).ready(function() {
                             $('#provinsi').on('change', function() {
-                            var provID = $(this).val();
-                            if(provID) {
-                                $.ajax({
-                                    url: '/getKota/'+provID,
-                                    type: "GET",
-                                    data : {"_token":"{{ csrf_token() }}"},
-                                    dataType: "json",
-                                    success:function(data)
-                                    {
-                                        if(data){
-                                            $('#kota').empty();
-                                            $('#kota').append('<option hidden>Pilih Kota</option>'); 
-                                            $.each(data, function(id, kota){
-                                                $('select[name="kota"]').append('<option value="'+ kota.id +'">' + kota.kota+ '</option>');
-                                            });
-                                        }else{
-                                            $('#kota').empty();
+                                var provID = $(this).val();
+                                if (provID) {
+                                    $.ajax({
+                                        url: '/getKota/' + provID,
+                                        type: "GET",
+                                        data: { "_token": "{{ csrf_token() }}" },
+                                        dataType: "json",
+                                        success: function(data) {
+                                            if (data) {
+                                                $('#kota').empty();
+                                                $('#kota').append('<option value="" selected disabled>Pilih Kota</option>'); 
+                                                $.each(data, function(id, kota) {
+                                                    $('select[name="kota"]').append('<option value="' + kota.id + '">' + kota.kota + '</option>');
+                                                });
+
+                                                
+                                                var selectedCityID = "{{ $data->id_kota }}";
+                                                $('select[name="kota"]').val(selectedCityID);
+
+                                            } else {
+                                                $('#kota').empty();
+                                            }
                                         }
-                                    }
-                                });
-                            }else{
-                                $('#kota').empty();
-                            }
+                                    });
+                                } else {
+                                    $('#kota').empty();
+                                }
                             });
-                            });
+
+                            
+                            $('#provinsi').trigger('change');
+                        });
+
+
+
                         </script>
+                        
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-12 flex-column d-flex"> 
                                 <label class="form-control-label text-md-start px-3">Kecamatan
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="kecamatan" name="kecamatan" placeholder="Masukkan kecamatan" > 
+                                <input type="text" id="kecamatan" name="kecamatan" placeholder="Masukkan kecamatan" value="{{$data->kecamatan}}"> 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -117,7 +136,7 @@
                                 <label class="form-control-label text-md-start px-3">Nomor telepon
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="telepon" name="telepon" placeholder="Masukkan nomor telepon" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
+                                <input type="text" id="telepon" name="telepon" placeholder="Masukkan nomor telepon" value="{{$data->telepon}}" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -125,7 +144,7 @@
                                 <label class="form-control-label text-md-start px-3">Nomor HP
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="hp" name="hp" placeholder="Masukkan nomor HP" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
+                                <input type="text" id="hp" name="hp" placeholder="Masukkan nomor HP" value="{{$data->hp}}" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
                             </div>
                         </div>
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -158,7 +177,7 @@
                                 <label class="form-control-label text-md-start px-3">Email
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="email" id="email" name="email" placeholder="Masukkan Email" > 
+                                <input type="email" id="email" name="email" placeholder="Masukkan Email"  value="{{$data->email}}"> 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -168,9 +187,9 @@
                                 </label> 
                                 <select id="kewargaan" name="kewargaan" placeholder="">
                                     <option value="Pilih Kewarganegaraan Anda" disabled selected>Pilih Kewarganegaraan Anda</option>
-                                    <option value="WNI Asli">WNI Asli</option>
-                                    <option value="WNI Keturunan">WNI Keturunan</option>
-                                    <option value="WNA">WNA</option>
+                                    <option value="WNI Asli" {{ $data->kewargaan == "WNI Asli" ? 'selected' : " " }}>WNI Asli</option>
+                                    <option value="WNI Keturunan" {{ $data->kewargaan == "WNI Keturunan" ? 'selected' : " " }}>WNI Keturunan</option>
+                                    <option value="WNA" {{ $data->kewargaan == "WNA" ? 'selected' : " " }}>WNA</option>
                                 </select> 
                             </div>
                         </div>
@@ -179,7 +198,7 @@
                                 <label class="form-control-label text-md-start px-3">Tanggal Lahir (Sesuai Ijazah)
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="date" id="tgl_lahir" name="tgl_lahir" onblur="validate(1)"> 
+                                <input type="date" id="tgl_lahir" name="tgl_lahir" value="{{$data->tgl_lahir}}"> 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -193,7 +212,7 @@
                                 <select id="provinsi_lahir" name="provinsi_lahir" placeholder="">
                                     <option value="Provinsi Lahir" selected disabled>Pilih Provinsi Lahir</option>
                                     @foreach ($provinsi2 as $provinsi)
-                                    <option value="{{$provinsi->id}}">{{$provinsi->provinsi}}</option>
+                                    <option value="{{ $provinsi->id }}" @if($provinsi->id == $data->provinsi_lahir) selected @endif>{{ $provinsi->provinsi }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -213,33 +232,39 @@
                         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
                         <script>
-                            $(document).ready(function() {
+                        $(document).ready(function() {
                             $('#provinsi_lahir').on('change', function() {
-                            var provID = $(this).val();
-                            if(provID) {
-                                $.ajax({
-                                    url: '/getKota/'+provID,
-                                    type: "GET",
-                                    data : {"_token":"{{ csrf_token() }}"},
-                                    dataType: "json",
-                                    success:function(data)
-                                    {
-                                        if(data){
-                                            $('#kota_lahir').empty();
-                                            $('#kota_lahir').append('<option hidden>Pilih Kota</option>'); 
-                                            $.each(data, function(id, kota){
-                                                $('select[name="kota_lahir"]').append('<option value="'+ kota.id +'">' + kota.kota+ '</option>');
-                                            });
-                                        }else{
-                                            $('#kota_lahir').empty();
+                                var provID = $(this).val();
+                                if (provID) {
+                                    $.ajax({
+                                        url: '/getKota/' + provID,
+                                        type: "GET",
+                                        data: { "_token": "{{ csrf_token() }}" },
+                                        dataType: "json",
+                                        success: function(data) {
+                                            if (data) {
+                                                $('#kota_lahir').empty();
+                                                $('#kota_lahir').append('<option value="" selected disabled>Pilih Kota</option>'); // Default option
+                                                $.each(data, function(id, kota) {
+                                                    $('select[name="kota_lahir"]').append('<option value="' + kota.id + '">' + kota.kota + '</option>');
+                                                });
+
+                                                var selectedCityName = "{{ $data->kota_lahir }}";
+                                                $('select[name="kota_lahir"]').val(selectedCityName); // Set default value
+
+                                            } else {
+                                                $('#kota_lahir').empty();
+                                            }
                                         }
-                                    }
-                                });
-                            }else{
-                                $('#kota_lahir').empty();
-                            }
+                                    });
+                                } else {
+                                    $('#kota_lahir').empty();
+                                }
                             });
-                            });
+
+                            $('#provinsi_lahir').trigger('change');
+                        });
+
                         </script>
 
                         
@@ -250,8 +275,8 @@
                                 </label> 
                                 <select id="kelamin" name="kelamin" placeholder="">
                                     <option value="Jenis Kelmain" disabled selected>Jenis Kelamin</option>
-                                    <option value="Pria">Pria</option>
-                                    <option value="Wanita">Wanita</option>
+                                    <option value="Pria" {{ $data->kelamin == "Pria" ? 'selected' : " " }}>Pria</option>
+                                    <option value="Wanita" {{ $data->kelamin == "Wanita" ? 'selected' : " " }}>Wanita</option>
                                 </select> 
                             </div>
                         </div>
@@ -262,9 +287,9 @@
                                 </label> 
                                 <select id="status" name="status" placeholder="">
                                     <option value="Jenis Kelmain" disabled selected>Status</option>
-                                    <option value="Menikah">Menikah</option>
-                                    <option value="Belum Menikah">Belum Menikah</option>
-                                    <option value="Lain-lain">Lain-lain (janda/duda)</option>
+                                    <option value="Menikah" {{ $data->status == "Menikah" ? 'selected' : " " }}>Menikah</option>
+                                    <option value="Belum Menikah" {{ $data->status == "Belum Menikah" ? 'selected' : " " }}>Belum Menikah</option>
+                                    <option value="Lain-lain" {{ $data->status == "Lain-lain" ? 'selected' : " " }}>Lain-lain (janda/duda)</option>
                                 </select> 
                             </div>
                         </div>
@@ -275,17 +300,17 @@
                                 </label> 
                                 <select id="agama" name="agama" placeholder="">
                                     <option value="" disabled selected>Pilih Agama</option>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Kristen">Kristen</option>
-                                    <option value="Katolik">Katolik</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Budha">Budha</option>
-                                    <option value="Lain-lain">Lain-lain</option>
+                                    <option value="Islam" {{ $data->agama == "Islam" ? 'selected' : " " }}>Islam</option>
+                                    <option value="Kristen" {{ $data->agama == "Kristen" ? 'selected' : " " }}>Kristen</option>
+                                    <option value="Katolik" {{ $data->agama == "Katolik" ? 'selected' : " " }}>Katolik</option>
+                                    <option value="Hindu" {{ $data->agama == "Hindu" ? 'selected' : " " }}>Hindu</option>
+                                    <option value="Budha" {{ $data->agama == "Budha" ? 'selected' : " " }}>Budha</option>
+                                    <option value="Lain-lain" {{ $data->agama == "Lain-lain" ? 'selected' : " " }}>Lain-lain</option>
                                 </select> 
                             </div>
                         </div>
                         <div class="row justify-content-center">
-                            <div class="form-group col-sm-6"> <button type="submit" class="btn-block btn-primary">Daftar</button> </div>
+                            <div class="form-group col-sm-6"> <button type="submit" class="btn-block btn-primary">Update</button> </div>
                         </div>
                     </form>
                 </div>

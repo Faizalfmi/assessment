@@ -80,20 +80,20 @@
                 <th>Nama</th>
                 <th>Alamat skrg</th>
                 <th>Alamat KTP</th>
-                <th>provinsi</th>
-                <th>kota</th>
-                <th>kecamatan</th>
-                <th>telepon</th>
-                <th>hp</th>
-                <th>email</th>
-                <th>kewargaan</th>
-                <th>tgl lahir</th>
-                <th>provinsi lahir</th>
-                <th>kota lahir</th>
-                <th>kelamin</th>
-                <th>status</th>
-                <th>agama</th>
-                <th>action</th>
+                <th>Provinsi</th>
+                <th>Kota</th>
+                <th>Kecamatan</th>
+                <th>Telepon</th>
+                <th>No HP</th>
+                <th>Email</th>
+                <th>Warga Negara</th>
+                <th>Tgl Lahir</th>
+                <th>Provinsi Lahir</th>
+                <th>Kota Lahir</th>
+                <th>Jenis Kelamin</th>
+                <th>Status</th>
+                <th>Agama</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -115,7 +115,12 @@
                 <th>{{$data->kelamin}}</th>
                 <th>{{$data->status}}</th>
                 <th>{{$data->agama}}</th>
-                <th></th>
+                <th>
+                    <div class="py-2">
+                        <a href="/edit/{{$data->id}}" class="btn btn-primary">Edit</a>
+                    </div>
+                    <a href="/hapus/{{$data->id}}" class="btn btn-danger">Hapus</a>
+                </th>
               </tr>
               @endforeach
             </tbody>
