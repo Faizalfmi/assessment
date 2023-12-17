@@ -68,20 +68,48 @@
                                 <label class="form-control-label px-3 text-md-start">Kabupaten/Kota
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <select id="kota" name="kota" placeholder="">
-                                    <option value="" selected disabled>Pilih Kota/Kabupaten</option>
-                                    @foreach ($kota as $kota)
-                                    <option value="{{$kota->id}}">{{$kota->kota}}</option>
-                                    @endforeach
+                                <select id="kota" name="kota" placeholder="">        
+                                    <option value="" selected disabled>Pilih Provinsi Dulu</option>                           
                                 </select> 
                             </div>
                         </div>
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                        <script>
+                            $(document).ready(function() {
+                            $('#provinsi').on('change', function() {
+                            var provID = $(this).val();
+                            if(provID) {
+                                $.ajax({
+                                    url: '/getCourse/'+provID,
+                                    type: "GET",
+                                    data : {"_token":"{{ csrf_token() }}"},
+                                    dataType: "json",
+                                    success:function(data)
+                                    {
+                                        if(data){
+                                            $('#kota').empty();
+                                            $('#kota').append('<option hidden>Pilih Kota</option>'); 
+                                            $.each(data, function(id, kota){
+                                                $('select[name="kota"]').append('<option value="'+ id +'">' + kota.kota+ '</option>');
+                                            });
+                                        }else{
+                                            $('#kota').empty();
+                                        }
+                                    }
+                                });
+                            }else{
+                                $('#kota').empty();
+                            }
+                            });
+                            });
+                        </script>
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-12 flex-column d-flex"> 
                                 <label class="form-control-label text-md-start px-3">Kecamatan
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="kecamatan" name="kecamatan" placeholder="Masukkan kecamatan" onblur="validate(1)"> 
+                                <input type="text" id="kecamatan" name="kecamatan" placeholder="Masukkan kecamatan" > 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -89,7 +117,7 @@
                                 <label class="form-control-label text-md-start px-3">Nomor telepon
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="telepon" name="telepon" placeholder="Masukkan nomor telepon" onblur="validate(1)"> 
+                                <input type="text" id="telepon" name="telepon" placeholder="Masukkan nomor telepon" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -97,15 +125,40 @@
                                 <label class="form-control-label text-md-start px-3">Nomor HP
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="text" id="hp" name="hp" placeholder="Masukkan nomor HP" onblur="validate(1)"> 
+                                <input type="text" id="hp" name="hp" placeholder="Masukkan nomor HP" pattern="[0-9+]+" title="Hanya boleh angka dan karakter +"> 
                             </div>
                         </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $("#hp").on("blur", function() {
+                                    var inputVal = $(this).val();
+                                    var regex = /^[0-9+]+$/;
+
+                                    if (!regex.test(inputVal)) {
+                                        alert("Nomor HP hanya boleh terdiri dari angka dan karakter +");
+                                        $(this).val(""); // Bersihkan nilai input jika tidak valid
+                                    }
+                                });
+                            });
+                            $(document).ready(function() {
+                                $("#telepon").on("blur", function() {
+                                    var inputVal = $(this).val();
+                                    var regex = /^[0-9+]+$/;
+
+                                    if (!regex.test(inputVal)) {
+                                        alert("Nomor HP hanya boleh terdiri dari angka dan karakter +");
+                                        $(this).val(""); // Bersihkan nilai input jika tidak valid
+                                    }
+                                });
+                            });
+                        </script>
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-12 flex-column d-flex"> 
                                 <label class="form-control-label text-md-start px-3">Email
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="email" id="email" name="email" placeholder="Masukkan Email" onblur="validate(1)"> 
+                                <input type="email" id="email" name="email" placeholder="Masukkan Email" > 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -149,19 +202,47 @@
                                     <span class="text-danger"> *</span>
                                 </label> 
                                 <select id="kota_lahir" name="kota_lahir" placeholder="">
-                                    <option value="" selected disabled>Pilih Kota/Kabupaten Lahir</option>
-                                    @foreach ($kota2 as $kota)
-                                    <option value="{{$kota->id}}">{{$kota->kota}}</option>
-                                    @endforeach
+                                    <option value="" selected disabled>Pilih Provinsi Dulu</option>
+                                    
                                 </select>
                             </div>
-                            <div class="form-group col-12 flex-column d-flex"> 
-                                <label class="form-control-label px-3 text-md-start">Bila lahir di luar negeri sebutkan negaranya
-                                    <span class="text-danger"> *</span>
-                                </label> 
-                                <input type="text" id="lahir_luar" name="lahir_luar" placeholder=""> 
-                            </div>
+                            
                         </div>
+
+                        {{-- Dropdown kota --}}
+                        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+                        <script>
+                            $(document).ready(function() {
+                            $('#provinsi_lahir').on('change', function() {
+                            var provID = $(this).val();
+                            if(provID) {
+                                $.ajax({
+                                    url: '/getCourse/'+provID,
+                                    type: "GET",
+                                    data : {"_token":"{{ csrf_token() }}"},
+                                    dataType: "json",
+                                    success:function(data)
+                                    {
+                                        if(data){
+                                            $('#kota_lahir').empty();
+                                            $('#kota_lahir').append('<option hidden>Pilih Kota</option>'); 
+                                            $.each(data, function(id, kota){
+                                                $('select[name="kota_lahir"]').append('<option value="'+ id +'">' + kota.kota+ '</option>');
+                                            });
+                                        }else{
+                                            $('#kota_lahir').empty();
+                                        }
+                                    }
+                                });
+                            }else{
+                                $('#kota_lahir').empty();
+                            }
+                            });
+                            });
+                        </script>
+
+                        
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-12 flex-column d-flex"> 
                                 <label class="form-control-label px-3 text-md-start">Jenis Kelamin
@@ -215,4 +296,5 @@
      
       
 </div>
+
 @endsection

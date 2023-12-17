@@ -31,7 +31,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav my-3 my-lg-0 ms-lg-3 me-auto">
+                        @if (Auth::user())
+                        @if (Auth::user()->role == 'user')
                         <li class="nav-item me-4"><a class="nav-link" href="/daftar">Daftar</a></li>
+                        <li class="nav-item me-4"><a class="nav-link" href="/list_daftar">History</a></li>
+                        @endif
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

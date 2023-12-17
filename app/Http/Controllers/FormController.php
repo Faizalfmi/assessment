@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Form;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,7 @@ class FormController extends Controller
                 
             ]);
             
+            
             Form::create([
                 'id_user' => Auth::user()->id,
                 'nama' => $request->nama,
@@ -67,5 +69,19 @@ class FormController extends Controller
         } catch (\Throwable $th) {
             return back()->withInput()->withErrors(['msg' => $th->getMessage()]);
         }
+    }
+
+    public function getKota(Request $request){
+        $kota = City::where("id_provinsi",$request->provID)->pluck('id','kota');
+        return response()->json($kota);
+    }
+
+    public function destroy(string $id)
+    {
+        $form = Form::find($id);
+
+        $form->delete();
+
+        return redirect(route('history.index'))->with('success', 'Data telah dihapus');
     }
 }

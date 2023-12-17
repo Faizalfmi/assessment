@@ -15,7 +15,7 @@
         <div class="lc-block col-lg-6 mx-auto mb-5">
             <div editable="rich">
     
-                <p class="lead">Di Telko University, 
+                <p class="lead">Di Telkom University, 
                     Anda akan menemukan lingkungan yang mendukung, fakultas yang berpengalaman, 
                     serta program-program pendidikan yang relevan dengan kebutuhan zaman ini.</p>
             </div>
@@ -70,8 +70,10 @@
                  
      </section>
      
-      @else
-      <div class="card">
+      
+</div>
+@else
+      
         <table class="table">
             <thead class="table-dark">
               <tr>
@@ -91,6 +93,7 @@
                 <th>kelamin</th>
                 <th>status</th>
                 <th>agama</th>
+                <th>action</th>
               </tr>
             </thead>
             <tbody>
@@ -101,23 +104,23 @@
                 <th>{{$data->alamat_ktp}}</th>
                 <th>{{$data->nama_provinsi}}</th>
                 <th>{{$data->nama_kota}}</th>
-                <th>kecamatan</th>
-                <th>telepon</th>
-                <th>hp</th>
-                <th>email</th>
-                <th>kewargaan</th>
-                <th>tgl lahir</th>
-                <th>provinsi lahir</th>
-                <th>kota lahir</th>
-                <th>kelamin</th>
-                <th>status</th>
-                <th>agama</th>
+                <th>{{$data->kecamatan}}</th>
+                <th>{{$data->telepon}}</th>
+                <th>{{$data->hp}}</th>
+                <th>{{$data->email}}</th>
+                <th>{{$data->kewargaan}}</th>
+                <th>{{$data->tgl_lahir}}</th>
+                <th>{{$data->nama_provinsi_lahir}}</th>
+                <th>{{$data->nama_kota_lahir}}</th>
+                <th>{{$data->kelamin}}</th>
+                <th>{{$data->status}}</th>
+                <th>{{$data->agama}}</th>
+                <th></th>
               </tr>
               @endforeach
             </tbody>
           </table>
-      </div>
+      
 
       @endif
-</div>
 @endsection
