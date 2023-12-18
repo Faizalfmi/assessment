@@ -73,59 +73,114 @@
       
 </div>
 @else
-      
+<div class="container">
         <table class="table">
             <thead class="table-dark">
               <tr>
-                <th>Nama</th>
-                <th>Alamat skrg</th>
-                <th>Alamat KTP</th>
-                <th>Provinsi</th>
-                <th>Kota</th>
-                <th>Kecamatan</th>
-                <th>Telepon</th>
-                <th>No HP</th>
-                <th>Email</th>
-                <th>Warga Negara</th>
-                <th>Tgl Lahir</th>
-                <th>Provinsi Lahir</th>
-                <th>Kota Lahir</th>
-                <th>Jenis Kelamin</th>
-                <th>Status</th>
-                <th>Agama</th>
-                <th>Action</th>
+                <th>Kolom</th>
+                <th>Data</th>
+                
               </tr>
             </thead>
             <tbody>
                 @foreach ($data2 as $data)
-              <tr>
-                <th>{{$data->nama}}</th>
-                <th>{{$data->alamat_sekarang}}</th>
-                <th>{{$data->alamat_ktp}}</th>
-                <th>{{$data->nama_provinsi}}</th>
-                <th>{{$data->nama_kota}}</th>
-                <th>{{$data->kecamatan}}</th>
-                <th>{{$data->telepon}}</th>
-                <th>{{$data->hp}}</th>
-                <th>{{$data->email}}</th>
-                <th>{{$data->kewargaan}}</th>
-                <th>{{$data->tgl_lahir}}</th>
-                <th>{{$data->nama_provinsi_lahir}}</th>
-                <th>{{$data->nama_kota_lahir}}</th>
-                <th>{{$data->kelamin}}</th>
-                <th>{{$data->status}}</th>
-                <th>{{$data->agama}}</th>
-                <th>
-                    <div class="py-2">
+              
+                <tr>
+                    <td>Foto</td>
+                    <td><img src="{{ asset('storage/'.$data->picture) }}" width="100px" alt=""></td>
+                </tr>
+                  
+                  <tr>
+                    <td>
+                        Nama
+                    </td>
+                    <td>{{ $data->nama }}</td>
+                </tr>
+                <tr>
+                    <td>Alamat_KTP</td>
+                    <td>{{ $data->alamat_ktp}}</td>
+                </tr>
+                <tr>
+                    <td>Alamat Sekarang</td>
+                    <td>{{ $data->alamat_sekarang}}</td>
+                </tr>
+                <tr>
+                    <td>Kecamatan</td>
+                    <td>{{ $data->kecamatan}}</td>
+                </tr>
+                <tr>
+                    <td>Kota/Kabupaten</td>
+                    <td>{{ $data->nama_kota}}</td>
+                </tr>
+                <tr>
+                    <td>Provinsi</td>
+                    <td>{{ $data->nama_provinsi}}</td>
+                </tr>
+                <tr>
+                    <td>No Telepon</td>
+                    <td>{{ $data->telepon}}</td>
+                </tr>
+                <tr>
+                    <td>No HP</td>
+                    <td>{{ $data->hp}}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>{{ $data->email}}</td>
+                </tr>
+                <tr>
+                    <td>Kewarganegaraan</td>
+                    <td>{{ $data->kewargaan}}</td>
+                </tr>
+                <tr>
+                    <td>Tanggal Lahir</td>
+                    <td>{{ $data->tgl_lahir}}</td>
+                </tr>
+                <tr>
+                    <td>Kota/Kabupaten Tempat Lahir</td>
+                    <td>{{ $data->nama_kota_lahir}}</td>
+                </tr>
+                <tr>
+                    <td>Provinsi Tempat Lahir</td>
+                    <td>{{ $data->nama_provinsi_lahir}}</td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td>{{ $data->kelamin}}</td>
+                </tr>
+                <tr>
+                    <td>Status Pernikahah</td>
+                    <td>{{ $data->status}}</td>
+                </tr>
+                <tr>
+                    <td>Agama</td>
+                    <td>{{ $data->agama}}</td>
+                </tr>
+                <tr>
+                    <td>Action</td>
+                    <td><div class="flex justifiy-between">
                         <a href="/edit/{{$data->id}}" class="btn btn-primary">Edit</a>
+                        <a href="/hapus/{{$data->id}}" class="btn btn-danger">Hapus</a></td>
                     </div>
-                    <a href="/hapus/{{$data->id}}" class="btn btn-danger">Hapus</a>
-                </th>
-              </tr>
+                    
+                </tr>
+                    
+                
+              
               @endforeach
             </tbody>
           </table>
       
-
+          <div >
+            {{ $data2->links() }}
+        </div>
+        <div class="flex justify-center mt-4">
+            <p class="text-gray-500">
+                Showing {{ $data2->firstItem() }} to {{ $data2->lastItem() }} of {{ $data2->total() }} results
+            </p>
+        </div>
+    </div>
+        
       @endif
+
 @endsection

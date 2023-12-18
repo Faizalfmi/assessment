@@ -37,7 +37,7 @@ class HomeController extends Controller
             'provinsi_lahir.provinsi as nama_provinsi_lahir',
             'kota_lahir.kota as nama_kota_lahir'
         )
-        ->get();
+        ->paginate(1);
 
     
         
@@ -58,7 +58,7 @@ class HomeController extends Controller
             'provinsi_lahir.provinsi as nama_provinsi_lahir',
             'kota_lahir.kota as nama_kota_lahir'
         )->where('id_user', Auth::user()->id)
-        ->get();
+        ->paginate(1);
 
     
         

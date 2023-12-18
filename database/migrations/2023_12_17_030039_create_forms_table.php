@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('id_user')->unsigned();
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->string('nama');
+            $table->string('nik');
             $table->string('alamat_ktp');
             $table->string('alamat_sekarang');
             $table->bigInteger('id_provinsi')->unsigned();
@@ -35,6 +36,7 @@ return new class extends Migration
             $table->string('kelamin');
             $table->string('status');
             $table->string('agama');
+            $table->string('picture');
             $table->timestamps();
         });
     }

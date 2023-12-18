@@ -25,6 +25,7 @@ class FormController extends Controller
         try {
             $request->validate([
                 'nama' => 'required',
+                'nik' => 'required',
                 'sekarang' => 'required',
                 'ktp' => 'required',
                 'provinsi' => 'required',
@@ -40,13 +41,19 @@ class FormController extends Controller
                 'kelamin' => 'required',
                 'status' => 'required',
                 'agama' => 'required',
+                'picture' => 'required',
                 
             ]);
+
+            $file = $request->file('picture');
+            $filename = uniqid() . "_" . $file->getClientOriginalName();
+            $file->storeAs('public/', $filename);
             
             
             Form::create([
                 'id_user' => Auth::user()->id,
                 'nama' => $request->nama,
+                'nik' => $request->nik,
                 'alamat_ktp' => $request->ktp,
                 'alamat_sekarang' => $request->sekarang,
                 'id_provinsi' => $request->provinsi,
@@ -62,6 +69,7 @@ class FormController extends Controller
                 'kelamin' => $request->kelamin,
                 'status' => $request->status,
                 'agama' => $request->agama,
+                'picture' => $filename,
                 
                 
             ]);
@@ -88,6 +96,7 @@ class FormController extends Controller
             $request->validate([
                 'id_user' => 'required',
                 'nama' => 'required',
+                'nik' => 'required',
                 'sekarang' => 'required',
                 'ktp' => 'required',
                 'provinsi' => 'required',
@@ -103,14 +112,25 @@ class FormController extends Controller
                 'kelamin' => 'required',
                 'status' => 'required',
                 'agama' => 'required',
+                'picture' => 'required',
                 
             ]);
             
             $form = Form::find($id);
-            
+
+            if($request->picture){
+                $file = $request->file('picture');
+                $filename = uniqid() . "_" . $file->getClientOriginalName();
+                $file->storeAs('public/', $filename);
+                
+                $form->update([
+                    'picture' => $filename
+                ]);
+            }
             $form->update([
                 'id_user' => $request->id_user,
                 'nama' => $request->nama,
+                'nik' => $request->nik,
                 'alamat_ktp' => $request->ktp,
                 'alamat_sekarang' => $request->sekarang,
                 'id_provinsi' => $request->provinsi,

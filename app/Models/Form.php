@@ -11,6 +11,7 @@ class Form extends Model
 
     protected $fillable = [
         'nama',
+        'nik',
         'id_user',
         'alamat_ktp',
         'alamat_sekarang',
@@ -27,6 +28,7 @@ class Form extends Model
         'kelamin',
         'agama',
         'status',
+        'picture',
         
         
     ];

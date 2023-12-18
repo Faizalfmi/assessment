@@ -23,7 +23,7 @@
                 <p class="blue-text">Masukkan informasi anda.</p>
                 <div class="card">
                     <h5 class="text-center mb-4">Masukkan Informasi Dengan Sebenar-benarnya</h5>
-                    <form class="form-card" action="/daftar" method="post">
+                    <form class="form-card" action="/daftar" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('post')
                         <div class="row justify-content-between text-left py-3">
@@ -34,6 +34,38 @@
                                 <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" > 
                             </div>
                         </div>
+                        <div class="row justify-content-between text-left py-3">
+                            <div class="form-group col-12 flex-column d-flex"> 
+                                <label class="form-control-label text-md-start px-3">NIK KTP
+                                    <span class="text-danger"> *</span>
+                                </label> 
+                                <input type="text" id="nik" name="nik" placeholder="Masukkan NIK KTP" pattern="[0-9+]+" maxlength="16"  title="Hanya boleh angka dan karakter +" > 
+                            </div>
+                        </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function() {
+                                $("#nik").on("blur", function() {
+                                    var inputVal = $(this).val();
+                                    var regex = /^[0-9+]+$/;
+                                    
+
+                                    if (!regex.test(inputVal)) {
+                                        alert("NIK hanya boleh terdiri dari angka dan karakter +");
+                                        $(this).val(""); // Bersihkan nilai input jika tidak valid
+                                    }
+                                    if ($(this).val().length>16){
+                                    alert("NIK tidak boleh lebih panjang dari 16 karakter");
+                                        $(this).val("");}
+                                        
+                                    if ($(this).val().length<=15){
+                                    alert("NIK tidak boleh kurang dari 16 karakter");
+                                        $(this).val("");
+                                    }
+                                });
+                            });
+                            
+                        </script>
                         <div class="row justify-content-between text-left py-3">
                             <div class="form-group col-sm-6 flex-column d-flex"> 
                                 <label class="form-control-label px-3 text-md-start">Alamat Sekarang
@@ -179,7 +211,7 @@
                                 <label class="form-control-label text-md-start px-3">Tanggal Lahir (Sesuai Ijazah)
                                     <span class="text-danger"> *</span>
                                 </label> 
-                                <input type="date" id="tgl_lahir" name="tgl_lahir" onblur="validate(1)"> 
+                                <input type="date" id="tgl_lahir" name="tgl_lahir" > 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -282,6 +314,14 @@
                                     <option value="Budha">Budha</option>
                                     <option value="Lain-lain">Lain-lain</option>
                                 </select> 
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left py-3">
+                            <div class="form-group col-12 flex-column d-flex"> 
+                                <label class="form-control-label text-md-start px-3">Foto
+                                    <span class="text-danger"> *</span>
+                                </label> 
+                                <input type="file" id="picture" name="picture" placeholder="" > 
                             </div>
                         </div>
                         <div class="row justify-content-center">
