@@ -23,7 +23,7 @@
                 <p class="blue-text">Masukkan informasi yang ingin diubah.</p>
                 <div class="card">
                     
-                    <form class="form-card" action="/edit/{{$data->id}}" method="post">
+                    <form class="form-card" action="/edit/{{$data->id}}" method="post" enctype="multipart/form-data">
                         @csrf
                         @method('put')
                         <div class="row justify-content-between text-left py-3">
@@ -38,6 +38,14 @@
                                     <span class="text-danger"> *</span>
                                 </label> 
                                 <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" value="{{$data->nama}}" > 
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left py-3">
+                            <div class="form-group col-12 flex-column d-flex"> 
+                                <label class="form-control-label text-md-start px-3">NIK KTP
+                                    <span class="text-danger"> *</span>
+                                </label> 
+                                <input type="text" id="nik" name="nik" placeholder="Masukkan NIK KTP" pattern="[0-9+]+" maxlength="16"  title="Hanya boleh angka dan karakter +" value="{{$data->nik}}"  > 
                             </div>
                         </div>
                         <div class="row justify-content-between text-left py-3">
@@ -307,6 +315,14 @@
                                     <option value="Budha" {{ $data->agama == "Budha" ? 'selected' : " " }}>Budha</option>
                                     <option value="Lain-lain" {{ $data->agama == "Lain-lain" ? 'selected' : " " }}>Lain-lain</option>
                                 </select> 
+                            </div>
+                        </div>
+                        <div class="row justify-content-between text-left py-3">
+                            <div class="form-group col-12 flex-column d-flex"> 
+                                <label class="form-control-label text-md-start px-3">Foto
+                                    <span class="text-danger"> *</span>
+                                </label> 
+                                <input type="file" id="picture" name="picture" placeholder=""> 
                             </div>
                         </div>
                         <div class="row justify-content-center">

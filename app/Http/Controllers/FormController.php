@@ -41,7 +41,7 @@ class FormController extends Controller
                 'kelamin' => 'required',
                 'status' => 'required',
                 'agama' => 'required',
-                'picture' => 'required',
+                'picture' => 'mimes:jpeg,png,jpg',
                 
             ]);
 
@@ -112,7 +112,7 @@ class FormController extends Controller
                 'kelamin' => 'required',
                 'status' => 'required',
                 'agama' => 'required',
-                'picture' => 'required',
+                'picture' => 'mimes:jpeg,png,jpg',
                 
             ]);
             
